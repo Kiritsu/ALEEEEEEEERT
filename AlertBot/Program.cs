@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.VoiceNext;
 using Newtonsoft.Json;
@@ -107,10 +108,11 @@ namespace Example
 
                     var guild = _client.Guilds[_config.GuildId];
 
+                    var message = null as DiscordMessage;
                     if (!(_config.CustomMessage is null))
                     {
                         var txtChannel = guild.Channels[_config.TextChannelId];
-                        await txtChannel.SendMessageAsync(_config.CustomMessage);
+                        message = await txtChannel.SendMessageAsync(_config.CustomMessage);
                     }
 
                     var channel = guild.Channels[_config.VoiceChannelId];
@@ -122,7 +124,7 @@ namespace Example
 
                         var psi = new ProcessStartInfo
                         {
-                            FileName = "ffmpeg.exe",
+                            FileName = "ffmpeg",
                             Arguments = $@"-i ""{_config.FileName}"" -ac 2 -f s16le -ar 48000 pipe:1",
                             RedirectStandardOutput = true,
                             UseShellExecute = false
@@ -144,6 +146,7 @@ namespace Example
                         await Task.Delay(TimeSpan.FromSeconds(20));
 
                         vnc.Disconnect();
+                        await message?.DeleteAsync();
                     }
                 }
                 catch (Exception e)
