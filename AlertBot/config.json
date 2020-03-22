@@ -1,0 +1,11 @@
+{
+	"alert_interval": 60,
+	"custom_message": null,
+	"prefixes" : [
+		"..."
+	],
+	"voice_channel_id": 632335449603440641,
+	"text_channel_id": 636734065449500683,
+	"guild_id": 621357511533920326,
+	"file_name": "song.mp3"
+}
